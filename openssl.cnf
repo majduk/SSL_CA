@@ -1,8 +1,8 @@
 
 # This definition stops the following lines choking if HOME isn't
 # defined.
-HOME			= .
-RANDFILE		= $ENV::HOME/.rnd
+HOME			= $ENV::SslCaHome
+#RANDFILE		= $ENV::HOME/.rnd
 
 # Extra OBJECT IDENTIFIER info:
 #oid_file		= $ENV::HOME/.oid
@@ -29,13 +29,13 @@ default_ca	= oapi		# The default ca section
 
 
 [ oapi ]
-dir = /etc/ssl/private
+dir = $HOME
 database = $dir/index.txt
 serial = $dir/serial
 private_key = $dir/ca.key
 certificate = $dir/ca.crt
 default_days = 730
-default_md = sha1
+default_md = sha256
 new_certs_dir = $dir
 policy = policy_match
 name_opt 	= ca_default		
@@ -246,5 +246,7 @@ organizationalUnitName  	= $ENV::SslOrganizationalUnitName
 commonName                  	= $ENV::SslCommonName
 
 [ req_alt_name ]
-subjectAltName=$ENV::SslAltName
+subjectAltName=@alt_names
 
+[alt_names]
+DNS.1=$ENV::SslAltName
